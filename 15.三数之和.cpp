@@ -12,27 +12,28 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        // if(nums.size() < 3)
-        // {
-        //     return {};
-        // }
-
         sort(nums.begin(), nums.end());
-
+        int n = nums.size();
         vector<vector<int>> res;
-        for(int i = 0; i < nums.size() - 2; ++i)
+        for(int i = 0; i < n - 2; i++)
         {
             // speed up
-            if(nums[i] > 0)
+            // 三个最小值相加大于0
+            if(nums[i] + nums[i + 1] + nums[i + 2] > 0)
             {
                 return res;
             }
-
+            // 三个最大值相加小于0
+            if(nums[i] + nums[n - 2] + nums[n - 1] < 0)
+            {
+                continue;
+            }
+            
+            // 对a去重
             if(i > 0 && nums[i] == nums[i - 1])
             {
                 continue;
             }
-
             int left = i + 1;
             int right = nums.size() - 1;
             while(left < right)
