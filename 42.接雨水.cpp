@@ -5,37 +5,35 @@
  */
 
 // @lc code=start
-#include<vector>
-#include<stack>
+#include <vector>
 using namespace std;
 
 class Solution {
-public:
-    int trap(vector<int>& height) {
-        int res = 0;
-        stack<int> st; // 记录下标,下标可以用来算宽度
+ public:
+  int trap(vector<int>& height) {
+    int res = 0;
+    int n = height.size();
 
-        for(int i = 0; i < height.size(); i++)
-        {
-            // 遇上比栈顶高的元素
-            while(!st.empty() && height[i] >= height[st.top()])
-            {
-                int bottom_height = height[st.top()];
-                st.pop();
+    int left = 0;
+    int right = n - 1;
 
-                if(st.empty()) break; // 例如数组元素起始为 0 1, 这里是接不了雨水的,因为找不到左边的柱子
+    int pre_max = height[0];
+    int suf_max = height[n - 1];
 
-                int left = st.top();  // 或者说在获取left = st.top() 之前要先保证栈非空
-                int h = min(height[i], height[left]) - bottom_height;
-                int width = i - left - 1;
-                res += width * h;
-            }
-
-            st.push(i); // 比当前栈顶元素小,压入
-        }
-
-        return res;
+    while (left <= right) {
+      // 更新当前前后缀
+      pre_max = max(pre_max, height[left]);
+      suf_max = max(suf_max, height[right]);
+      if (pre_max <= suf_max) {
+        res += pre_max - height[left];
+        left++;
+      } else {
+        res += suf_max - height[right];
+        right--;
+      }
     }
+
+    return res;
+  }
 };
 // @lc code=end
-
