@@ -14,6 +14,7 @@ public:
         if (nums.size() == 0 || k <= 1) {
             return 0;
         }
+        
         int ans = 0;
         int prod = 1;
         int left = 0;

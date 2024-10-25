@@ -5,31 +5,33 @@
  */
 
 // @lc code=start
+#include <algorithm>
+#include <climits>
 #include<vector>
-#include<iostream>
 using namespace std;
 
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        if(nums.size() == 0)
-        {
+        if(nums.size() == 0) {
             return 0;
         }
 
         int sum = 0;
-        int subArrayLen = INT_MAX;
-        for(int i = 0, j = 0; j < nums.size(); ++j)
-        {
-            sum += nums[j];
-            while(sum >= target)
-            {
-                subArrayLen = min(subArrayLen, j - i + 1);
-                sum = sum - nums[i];
-                i++;
+        int left = 0;
+        int ans = INT_MAX;
+
+        for (int right = 0; right < nums.size(); right++) {
+            sum += nums[right];
+
+            while (sum >= target) {
+                ans = min(ans, right - left + 1);
+                sum -= nums[left];
+                left++;
             }
         }
-        return subArrayLen == INT_MAX ? 0 : subArrayLen;
+
+        return ans == INT_MAX ? 0 : ans;
     }
 };
 
