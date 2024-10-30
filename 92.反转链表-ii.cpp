@@ -22,11 +22,11 @@ public:
         // 初始 : 1->2->3->4->5, left = 2, right = 4
         ListNode dummyHead(0, head);
 
-        // 找到 left 的上一个节点 : before_left
+        // 找到 left 的上一个节点 : p0
         // 假设 left = 1, 即可快速判断出 i < left - 1
-        ListNode* before_left = &dummyHead;
+        ListNode* p0 = &dummyHead;
         for (int i = 0; i < left - 1; i++) {
-            before_left = before_left->next;
+            p0 = p0->next;
         }
 
         // 反转 left 到 right 这一段
@@ -35,7 +35,7 @@ public:
         // 或者换种思考方式:需要反转 right - left + 1 个节点
         // 反转结束 : 1->2  4->3->2  5     
         ListNode* prev = nullptr;
-        ListNode* curr = before_left->next;
+        ListNode* curr = p0->next;
         for (int i = 0; i < right - left + 1; i++) {
             ListNode* temp = curr->next;
             curr->next = prev;
@@ -48,8 +48,8 @@ public:
         // 这两行的顺序也不能反!!!
         // 第一行结束: 1->2->5   4->3->2
         // 第二行结束: 1->4->3->2->5
-        before_left->next->next = curr;
-        before_left->next = prev;
+        p0->next->next = curr;
+        p0->next = prev;
 
         return  dummyHead.next;
     }
