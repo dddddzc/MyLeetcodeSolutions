@@ -19,16 +19,17 @@ public:
     bool hasCycle(ListNode *head) {
         ListNode *fast = head;
         ListNode *slow = head;
-        do{
-            if(!fast || !fast->next)
-            {
-                return false;
-            }
+
+        while (fast && fast->next) {
             fast = fast->next->next;
             slow = slow->next;
-        }while(fast != slow);
 
-        return true;
+            if (fast == slow) {
+                return true;
+            }
+        }
+
+        return false;
     }
 };
 // @lc code=end
