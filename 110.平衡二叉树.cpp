@@ -16,25 +16,30 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+#include <algorithm>
 class Solution {
 public:
-    int getDepth(TreeNode* curr)
-    {
-        if(!curr) return 0;
-        int leftDepth = getDepth(curr->left);
-        if(leftDepth == -1) return -1;
-        int rightDepth = getDepth(curr->right);
-        if(rightDepth == -1) return -1;
-        if(abs(leftDepth - rightDepth) <= 1)
-        {
-            return 1 + max(leftDepth, rightDepth);
+    int getDepth(TreeNode* curr) {
+        if (!curr) {
+            return 0;
         }
-        return -1;
+        int leftDepth = getDepth(curr->left);
+        if (leftDepth == -1) {
+            return -1; // 左子树不平衡
+        }
+        int rightDepth = getDepth(curr->right);
+        if (rightDepth == -1) {
+            return -1; // 右子树不平衡
+        }
+        if (std::abs(leftDepth - rightDepth) > 1) {
+            return -1; // 左右子树高度不平衡
+        }
+
+        return std::max(leftDepth, rightDepth) + 1;
     }
     bool isBalanced(TreeNode* root) {
         if(!root) return true;
-        int depth = getDepth(root);
-        return !(depth == -1);     // -1 would spread to the root.
+        return getDepth(root) != -1;
     }
 };
 // @lc code=end

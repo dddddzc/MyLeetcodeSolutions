@@ -23,29 +23,32 @@ class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
         if(!p && !q) return true;
-        else if(!p || !q) return false;
+        if(!p || !q) return false;
+        bool left_same = isSameTree(p->left, q->left);
+        bool right_same = isSameTree(p->right, q->right);
+        bool curr_same = (p->val == q->val);
+        return curr_same && left_same && right_same;
+        // stack<TreeNode*> s;
+        // s.push(p);
+        // s.push(q);
 
-        stack<TreeNode*> s;
-        s.push(p);
-        s.push(q);
-
-        while(!s.empty())
-        {
-            TreeNode* left = s.top();   s.pop();
-            TreeNode* right = s.top();  s.pop();  
+        // while(!s.empty())
+        // {
+        //     TreeNode* left = s.top();   s.pop();
+        //     TreeNode* right = s.top();  s.pop();  
             
-            // 保证left和right都是非nullptr的,否则在后续的push里会出现push(nullptr->left)的情况。
-            if(!left && !right) continue; // 不能是return true;
-            else if(!left || !right) return false;
-            else if(left->val != right->val) return false;
+        //     // 保证left和right都是非nullptr的,否则在后续的push里会出现push(nullptr->left)的情况。
+        //     if(!left && !right) continue; // 不能是return true;
+        //     else if(!left || !right) return false;
+        //     else if(left->val != right->val) return false;
 
-            s.push(left->left);
-            s.push(right->left);
-            s.push(left->right);
-            s.push(right->right);          
-        }
+        //     s.push(left->left);
+        //     s.push(right->left);
+        //     s.push(left->right);
+        //     s.push(right->right);          
+        // }
 
-        return true;
+        // return true;
     }
 };
 // @lc code=end

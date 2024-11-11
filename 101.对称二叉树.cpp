@@ -21,12 +21,8 @@ public:
     bool compare(TreeNode* left, TreeNode* right)
     {
         if(!left && !right) return true;
-        else if(!left || !right) return false;
-        else if(left->val != right->val) return false;
-
-        bool llrr = compare(left->left, right->right);
-        bool lrrl = compare(left->right, right->left);
-        return llrr && lrrl;
+        if(!left || !right) return false;
+        return (left->val == right->val) && compare(left->left, right->right) && compare(left->right, right->left);
     }
 
     bool isSymmetric(TreeNode* root) {
