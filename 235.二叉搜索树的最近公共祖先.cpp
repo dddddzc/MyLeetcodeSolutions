@@ -18,13 +18,17 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(root == p || root == q) return root;
-        TreeNode* ans = nullptr;
-        if(p->val < root->val && q->val < root->val)    ans = lowestCommonAncestor(root->left, p, q);
-        else if(p->val > root->val && q->val > root->val)   ans = lowestCommonAncestor(root->right, p, q);
-        else    ans = root;
-
-        return ans; // 没找到
+        TreeNode* ans = root;
+        // 如果都在左子树
+        if(p->val < root->val && q->val < root->val) {
+            ans = lowestCommonAncestor(root->left, p, q);
+        }
+        // 如果都在右子树
+        else if(p->val > root->val && q->val > root->val) {
+            ans = lowestCommonAncestor(root->right, p, q);
+        }
+        // 当前节点就是 p或q, 或者一个在左一个在右
+        return ans;
     }
 };
 // @lc code=end
