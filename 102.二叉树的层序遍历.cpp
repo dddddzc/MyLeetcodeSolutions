@@ -23,10 +23,12 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        queue<TreeNode*> q;
-        if(root) q.push(root);
-
+        if (!root)   return {};
+        
         vector<vector<int>> res;
+        queue<TreeNode*> q;
+        q.push(root);
+
         while(!q.empty())
         {
             vector<int> currLayer;
