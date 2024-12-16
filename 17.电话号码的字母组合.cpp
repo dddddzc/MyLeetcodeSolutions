@@ -24,33 +24,29 @@ public:
         "tuv",
         "wxyz",
     };
-
+    
     vector<string> res; // 答案汇总
     string s = "";      // 存储单个答案
 
-    void combination(string& digits, int idx)
-    {
-        // 结束条件:不是digits.size() - 1
-        if(idx == digits.size()) 
-        {
+    void combination(string& digits, int i) {
+        // 终止条件
+        if (i == digits.size()) {
             res.push_back(s);
             return ;
         }
 
-        // digits[idx] 是一个char,例如'2'
-        string curr2str = letterMap[digits[idx] - '0'];
-
-        for(int i = 0; i < curr2str.size(); i++)
-        {
-            s.push_back(curr2str[i]);
-            combination(digits, idx + 1);
+        // step1 : 遍历第 i 个字母
+        for (auto& c : letterMap[digits[i] - '0']) {
+            s += c;
+            // 子问题 : 大于第 i 个字符的部分
+            combination(digits, i + 1);
+            // 回溯
             s.pop_back();
         }
     }
-    
+
     vector<string> letterCombinations(string digits) {
         if(digits.size() == 0) return res;
-
         combination(digits, 0);
         return res;
     }
