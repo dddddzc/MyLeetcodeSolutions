@@ -10,36 +10,53 @@ using namespace std;
 
 class Solution {
 public:
-    int ge_first(vector<int>& nums, int target) {
+    // 找到 target 的第一个位置
+    // 或者 大于target的最小数 的第一个位置 
+    int lower_bound(vector<int>& nums, int target) {
         int left = 0;
         int right = nums.size() - 1;
-
-        // 如果写 <, 在left和right指向同一个数的时候就停止了
-        // 我们无法知道这个数与target的关系
+        int mid;
         while (left <= right) {
-            int mid = left + (right - left) / 2;
+            mid = left + (right - left) / 2;
             if (nums[mid] < target) {
-                left = mid + 1; // 范围缩小到 [mid+1, right]
+                left = mid + 1;
             } else {
-                right = mid - 1;// 范围缩小到 [left, mid-1]
+                right = mid - 1;
             }
         }
-
         return left;
     }
 
+    // 找到 target 的最后一个位置
+    // 或者 小于target的最大数 的最后一个位置
+    int upper_bound(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        int mid;
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            // 此处控制着区间总体向右移动
+            if (nums[mid] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return right;
+    }
+
     vector<int> searchRange(vector<int>& nums, int target) {
-        if(nums.size() == 0 || nums[0] > target || nums[nums.size() - 1] < target) {
+        if(nums.empty() || nums[0] > target || nums[nums.size() - 1] < target) {
             return {-1, -1};
         } 
-
-        int start = ge_first(nums, target);
-        // nums 中不含 target 元素
-        if(nums[start] != target) { 
+        
+        // 使用左闭右闭
+        int start = lower_bound(nums, target);
+        int end = upper_bound(nums, target);
+        // start 和 end 搜索到的不一定是 target
+        if (start == nums.size() || nums[start] != target) {
             return {-1, -1};
         }
-        // 有start必有end
-        int end = ge_first(nums, target + 1) - 1;
         return {start, end};
     }
 };
